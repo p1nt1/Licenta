@@ -8,6 +8,11 @@ To start the aplication:
 2. npm run watch
 3. open the http://127.0.0.1:8000
 
-On the server:
+Colorize is a web platform that let's you change the color of your hair.
+It is build using:
+    - Laravel 5.4
+    - Laravel Passport
+    - VueJS
 
-1.composer install
+<img src="examples/1.png">
+    
