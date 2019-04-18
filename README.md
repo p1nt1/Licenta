@@ -8,11 +8,24 @@ To start the aplication:
 2. npm run watch
 3. open the http://127.0.0.1:8000
 
-Colorize is a web platform that let's you change the color of your hair.
-It is build using:
-    - Laravel 5.4
-    - Laravel Passport
-    - VueJS
+Colorize is a web platform that let's you change the color of your hair. It helps hair saloons to show their clients if it's a good ideea to change their hair color.
 
-<img src="examples/1.png">
+It is build using:
+Laravel 5.4,
+Laravel Passport,
+VueJS
+
+It has all the auth functionality, implemented using laravel Passport.
+<img src="examples/1.PNG" width=550>
+
+After you log in using your account, it will redirect you to the page of your coresponding role.
+<img src="examples/2.PNG" width=550>
+
+On the admin account you can add colors coresponding to the hair saloon hair dye's.
+<img src="examples/3.PNG" width=550>
+
+To change your color you need to first select the color you want to change in and put your head in the oval and press the camera button.
+<img src="examples/4.PNG" width=550>
+
+<img src="examples/5.PNG" width=550>
     
