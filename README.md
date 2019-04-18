@@ -24,7 +24,7 @@ After you log in using your account, it will redirect you to the page of your co
 On the admin account you can add colors coresponding to the hair saloon hair dye's.
 <img src="examples/3.PNG" width=550>
 
-To change your color you need to first select the color you want to change in and put your head in the oval and press the camera button.
+To change your color you need to first select the color you want to change in and put your head in the oval and press the camera button.<br>
 <img src="examples/4.PNG" width=550>
 
 <img src="examples/5.PNG" width=550>
