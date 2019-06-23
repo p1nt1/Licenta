@@ -2,13 +2,13 @@
 
 namespace Colorize\Http\Controllers\Auth;
 
-use Colorize\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Colorize\Http\Controllers\Controller;
 use Colorize\Notifications\PasswordResetRequest;
 use Colorize\Notifications\PasswordResetSuccess;
-use Colorize\User;
 use Colorize\PasswordReset;
+use Colorize\User;
+use Illuminate\Http\Request;
 
 class PasswordResetController extends Controller
 {

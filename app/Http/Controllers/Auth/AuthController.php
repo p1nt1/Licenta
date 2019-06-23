@@ -2,15 +2,15 @@
 
 namespace Colorize\Http\Controllers\Auth;
 
-use Colorize\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
-use Laravolt\Avatar\Avatar;
+use Colorize\Http\Controllers\Controller;
 use Colorize\Notifications\SignupActivate;
 use Colorize\Notifications\SignupActivated;
 use Colorize\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Laravolt\Avatar\Avatar;
 
 class AuthController extends Controller
 {

@@ -11,20 +11,17 @@ import UserList from './user/UserList.vue';
 import HandleUser from './user/HandleUser.vue';
 import CreateUser from './user/CreateUser.vue';
 
-import ColorList from './color/ColorList';
-import ColorCreate from './color/ColorCreate';
-import HandleColor from './color/HandleColor';
 
-import ClientList from './client/ClientList';
-import ClientCreate from './client/ClientCreate';
 
-import PictureList from './picture/PictureList';
-import PictureCreate from './picture/PictureCreate';
-import PictureHandle from './picture/PictureHandle';
+import UserProfile from './user/UserProfile.vue';
+import PostView from "./posts/PostView.vue";
+import PostCreate from "./posts/PostCreate.vue";
+import AdminPosts from  "./posts/AdminPosts";
+
 
 export const routes = [
     {
-        path: '/',
+        path: '/login',
         component: Login
     },
     {
@@ -34,10 +31,6 @@ export const routes = [
     {
         path: '/change-password/:token',
         component: ChangePassword
-    },
-    {
-        path: '/picker',
-        component: ChangerTester,
     },
     {
         path: '/change-password-user',
@@ -67,77 +60,43 @@ export const routes = [
         }
     },
     {
-        path: '/user/create',
+        path: '/register',
         component: CreateUser,
         meta:{
+            requiresAuth: false,
+            role: 'user'
+        }
+    },
+    {
+        path: '/profile/:id',
+        component: UserProfile,
+        meta:{
+            requiresAuth: false,
+            both: true
+        }
+    },
+    {
+        path: '/',
+        component: PostView,
+        meta:{
+            requiresAuth: false,
+            both: true
+        }
+    },
+    {
+        path: '/post/create',
+        component: PostCreate,
+        meta:{
+            requiresAuth: true,
+            role: 'user'
+        }
+    },
+    {
+        path: '/pendingposts',
+        component: AdminPosts,
+        meta:{
             requiresAuth: true,
             role: 'admin'
-        }
-    },
-    {
-        path: '/color/list',
-        component: ColorList,
-        meta:{
-            requiresAuth: true,
-            role: 'admin'
-        }
-    },
-    {
-        path: '/color/handle/:id',
-        component: HandleColor,
-        meta:{
-            requiresAuth: true,
-            role: 'admin'
-        }
-    },
-    {
-        path: '/color/create',
-        component: ColorCreate,
-        meta:{
-            requiresAuth: true,
-            role: 'admin'
-        }
-    },
-
-    {
-        path: '/client/list',
-        component: ClientList,
-        meta:{
-            requiresAuth: true,
-            role: 'user'
-        }
-    },
-    {
-        path: '/client/create',
-        component: ClientCreate,
-        meta:{
-            requiresAuth: true,
-            role: 'user'
-        }
-    },
-
-    {
-        path: '/picture/list',
-        component: PictureList,
-        meta:{
-            requiresAuth: true,
-            role: 'user'
-        }
-    },
-    {
-        path: '/picture/create',
-        component: PictureCreate,
-        meta:{
-            requiresAuth: true,
-            role: 'user'
-        }
-    },
-    {
-        path: '/picture/handle',
-        component: PictureHandle,
-        meta:{
-            requiresAuth: true,
-            role: 'user'
         }
     },
     {

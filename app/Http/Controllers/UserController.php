@@ -5,7 +5,6 @@ namespace Colorize\Http\Controllers;
 use Colorize\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {

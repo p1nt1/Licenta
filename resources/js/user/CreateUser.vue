@@ -22,9 +22,9 @@
         <div class="registerInputContainer">
             <p class="errorText" v-if="errors.role !== ''">{{ errors.role }}</p>
             <select class="form-control registerInput" v-model="form.role" :class="{ 'errorInput' : errors.role !== ''}">
-                <option value="0" disabled selected>Select an role for user</option>
-                <option value="1">User</option>
-                <option value="2">Admin</option>
+                <option value="0" disabled selected>Select a city</option>
+                <option value="1">Suceava</option>
+                <option value="2">Cluj Napoca</option>
             </select>
         </div>
 

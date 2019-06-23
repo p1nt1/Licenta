@@ -11,49 +11,48 @@
                 </h3>
             </div>
 
-            <div v-if="role==2">
-                <vs-divider icon="person" position="left">
+            <div v-if="role==1">
+                <vs-divider icon="people" position="left">
                 </vs-divider>
 
                 <vs-sidebar-item index="2" to="/user/list" class="items">
                     Users List
                 </vs-sidebar-item>
 
-                <vs-sidebar-item index="3" to="/user/create" class="items">
-                    User Create
+            </div>
+
+            <div v-if="role==1">
+                <vs-divider icon="view_quilt" position="left">
+                </vs-divider>
+
+                <vs-sidebar-item index="4" to="/" class="items">
+                    Posts List
+                </vs-sidebar-item>
+
+                <vs-sidebar-item index="3" to="/pendingposts" class="items">
+                    Pending Posts
                 </vs-sidebar-item>
             </div>
 
             <div v-if="role==2">
-                <vs-divider icon="color_lens" position="left">
+                <vs-divider icon="view_quilt" position="left">
                 </vs-divider>
 
-                <vs-sidebar-item index="4" to="/color/list" class="items">
-                    Color List
+                <vs-sidebar-item index="1" to="/user/list" class="items">
+                    Posts
                 </vs-sidebar-item>
 
-                <vs-sidebar-item index="5" to="/color/create" class="items">
-                    Color Create
+                <vs-divider icon="person" position="left">
+                </vs-divider>
+
+                <vs-sidebar-item index="2" to="/profile" class="items">
+                    My Profile
                 </vs-sidebar-item>
+
+
+
             </div>
 
-            <vs-divider icon="people" position="left">
-            </vs-divider>
-
-            <vs-sidebar-item index="6" to="/client/list" class="items">
-                Client List
-            </vs-sidebar-item>
-
-            <vs-divider icon="photo_album" position="left">
-            </vs-divider>
-
-            <vs-sidebar-item index="7" to="/picture/list" class="items">
-                Picture List
-            </vs-sidebar-item>
-
-            <vs-sidebar-item index="8" to="/picture/create" class="items">
-                Picture Create
-            </vs-sidebar-item>
 
             <div class="footer-sidebar" slot="footer">
                 <vs-button color="danger" type="flat" @click="logout" class="log_off_button"><i class="fa fa-power-off log_off"> </i> <strong>Logout</strong></vs-button>
@@ -107,12 +106,12 @@
     }
 
     .navbar_menu {
-      padding: 2px 16px;
-      transition: all ease-out 0.325s;
+        padding: 2px 16px;
+        transition: all ease-out 0.325s;
     }
 
     .navbar_menu:hover {
-      background-color: #c5bebe;
+        background-color: #c5bebe;
     }
 
     .footer-sidebar{
@@ -123,22 +122,22 @@
     }
 
     .vs-button.log_off_button {
-      transition: all ease-in 0.1s;
+        transition: all ease-in 0.1s;
     }
 
     .vs-button.log_off_button:hover {
-      background-color: #ff0404 !important;
-      color:white;
+        background-color: #ff0404 !important;
+        color:white;
     }
 
     .vs-button.log_off_button:hover .log_off {
-      border: solid 1.5px white;
+        border: solid 1.5px white;
     }
 
     .log_off {
-      border: solid 1.5px red;
-      border-radius: 15%;
-      padding: 4px;
+        border: solid 1.5px red;
+        border-radius: 15%;
+        padding: 4px;
     }
 
 </style>

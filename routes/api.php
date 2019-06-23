@@ -22,7 +22,6 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'auth:api',
     'prefix' => 'user'
 ], function () {
     Route::get('get', 'UserController@get');
@@ -33,14 +32,20 @@ Route::group([
 
 Route::group([
     'middleware' => 'auth:api',
-    'prefix' => 'color'
+    'prefix' => 'posts'
 ], function () {
-    Route::get('get', 'ColorController@get');
-    Route::get('getAll', 'ColorController@getAll');
-    Route::get('find/{id}', 'ColorController@find');
-    Route::delete('delete/{id}', 'ColorController@delete');
-    Route::put('edit/{id}', 'ColorController@edit');
-    Route::post('/create', 'ColorController@create');
+    Route::post('/create', 'PostController@create');
+});
+
+Route::group([
+    'prefix' => 'posts'
+], function () {
+    Route::get('get', 'PostController@get');
+    Route::get('getAll', 'PostController@getAll');
+    Route::get('find/{id}', 'PostController@find');
+    Route::delete('delete/{id}', 'PostController@delete');
+    Route::put('edit/{id}', 'PostController@edit');
+    Route::get('/search', 'PostController@search');
 });
 
 Route::group([

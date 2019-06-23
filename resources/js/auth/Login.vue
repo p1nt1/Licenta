@@ -42,7 +42,7 @@
         data(){
             return {
                 form:{
-                    email: 'iliuta@contursoft.ro',
+                    email: 'mihai@test.ro',
                     password: '123456',
                     remember: true
 
@@ -65,7 +65,7 @@
                         setAuthorization(res.data.access_token);
                         this.$store.commit("login", res.data);
                         this.loading = 0;
-                        this.$router.push('/client/list');
+                        this.$router.push('/');
                     })
                     .catch(err=>{
                         this.error = err.response.data.message;
