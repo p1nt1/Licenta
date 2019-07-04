@@ -46,6 +46,7 @@ Route::group([
     Route::delete('delete/{id}', 'PostController@delete');
     Route::put('edit/{id}', 'PostController@edit');
     Route::get('/search', 'PostController@search');
+    Route::post('status', 'PostController@status');
 });
 
 Route::group([

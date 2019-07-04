@@ -70175,48 +70175,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       users: [],
-      loading: 0,
-      pagination: {
-        current_page: 1
-      }
+      loading: 0
     };
   },
   mounted: function mounted() {
-    var page = this.$route.query.page;
+    var _this = this;
 
-    if (page != null) {
-      if (page > 1) {
-        this.pagination.current_page = parseInt(this.$route.query.page);
-      }
-    }
-
-    this.paginate();
+    this.loading = 1;
+    axios.get('/api/user/get').then(function (res) {
+      _this.users = res.data;
+      _this.loading = 0;
+    })["catch"](function (err) {
+      _this.loading = 0;
+    });
   },
   methods: {
-    paginate: function paginate() {
-      var _this = this;
-
-      this.loading = 1;
-      axios.get('/api/user/get?page=' + this.pagination.current_page).then(function (res) {
-        _this.users = res.data.data;
-        _this.pagination = res.data;
-        _this.loading = 0;
-      })["catch"](function (err) {
-        _this.loading = 0;
-      });
+    desactivate: function desactivate(index, item) {
+      item.active = 0;
+      this.$set(this.users, index, item);
     }
   },
   components: {
-    SpinnerLoading: __WEBPACK_IMPORTED_MODULE_0__page_SpinnerLoading___default.a,
-    pagination: __WEBPACK_IMPORTED_MODULE_1__page_PaginationCustom___default.a
+    SpinnerLoading: __WEBPACK_IMPORTED_MODULE_0__page_SpinnerLoading___default.a
   }
 });
 
@@ -70490,77 +70476,65 @@ var render = function() {
       }),
       _vm._v(" "),
       !_vm.loading
-        ? _c(
-            "div",
-            [
-              _c("h2", { staticClass: "titleList" }, [
-                _vm._v("User Management")
-              ]),
+        ? _c("div", [
+            _c("h2", { staticClass: "titleList" }, [_vm._v("User Management")]),
+            _vm._v(" "),
+            _c("table", { staticClass: "table", attrs: { align: "center" } }, [
+              _vm._m(0),
               _vm._v(" "),
               _c(
-                "table",
-                { staticClass: "table", attrs: { align: "center" } },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.users, function(item, index) {
-                      return _c("tr", [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v(_vm._s(index + 1))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("img", {
-                            staticClass: "avatarUser",
-                            attrs: { src: item.avatar }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.email))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c("i", {
-                            staticClass: "fa fa-circle",
-                            style: [
-                              item.active == 1
-                                ? { "font-size": "20px", color: "green" }
-                                : { "font-size": "20px", color: "red" }
-                            ]
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-primary",
-                                attrs: { to: "/user/handle/" + item.id }
-                              },
-                              [_c("i", { staticClass: "fa fa-edit" })]
-                            )
-                          ],
-                          1
-                        )
-                      ])
-                    }),
-                    0
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("pagination", {
-                attrs: { pagination: _vm.pagination, link: "/user/list?page=" },
-                on: { paginate: _vm.paginate }
-              })
-            ],
-            1
-          )
+                "tbody",
+                _vm._l(_vm.users, function(item, index) {
+                  return _c("tr", [
+                    _c("th", { attrs: { scope: "row" } }, [
+                      _vm._v(_vm._s(index + 1))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("img", {
+                        staticClass: "avatarUser",
+                        attrs: { src: item.avatar }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.email))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("i", {
+                        staticClass: "fa fa-circle",
+                        style: [
+                          item.active == 1
+                            ? { "font-size": "20px", color: "green" }
+                            : { "font-size": "20px", color: "red" }
+                        ]
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      item.active == 1
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger",
+                              attrs: { value: "Activate" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.desactivate(index, item)
+                                }
+                              }
+                            },
+                            [_vm._v("DezActivate")]
+                          )
+                        : _vm._e()
+                    ])
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
         : _vm._e()
     ],
     1
@@ -73192,6 +73166,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (response) {
         _this2.posts = response.data;
+        var i = 0;
+
+        for (i = 0; i < _this2.posts.length; i++) {
+          _this2.posts[i].picture = _this2.posts[i].picture.split(';');
+          _this2.posts[i].current_picture = 0;
+        }
+
         _this2.loading = 0;
       })["catch"](function (err) {
         return _this2.loading = 0;
@@ -73474,87 +73455,85 @@ var render = function() {
               ? _c(
                   "div",
                   { staticClass: "containerClientList" },
-                  _vm._l(_vm.posts, function(item) {
-                    return _c(
-                      "div",
-                      { key: item.id, staticClass: "clientCard" },
-                      [
-                        _c("div", { staticClass: "pictureItem" }, [
-                          _c("div", {
-                            staticClass: "prev",
-                            on: {
-                              click: function($event) {
-                                return _vm.change_current_picture_prev(item)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("div", {
-                            staticClass: "next",
-                            on: {
-                              click: function($event) {
-                                return _vm.change_current_picture_next(item)
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "clientPicture",
-                            attrs: { src: item.picture[item.current_picture] }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "titleItem" }, [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item.title) +
-                              "\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "descriptionItem" }, [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item.description) +
-                              "\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "sizeItem" }, [
-                          _vm._v(
-                            "\n                   Size: " +
-                              _vm._s(item.size) +
-                              "\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "priceItem" }, [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item.price) +
-                              " RON\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "gotobtn" },
-                          [
-                            _c(
-                              "router-link",
-                              {
-                                staticClass: "btn btn-custom",
-                                attrs: {
-                                  to: { path: "/profile/" + item.user_id }
+                  _vm._l(_vm.posts, function(item, key) {
+                    return item.status == 1
+                      ? _c("div", { key: item.id, staticClass: "clientCard" }, [
+                          _c("div", { staticClass: "pictureItem" }, [
+                            _c("div", {
+                              staticClass: "prev",
+                              on: {
+                                click: function($event) {
+                                  return _vm.change_current_picture_prev(item)
                                 }
-                              },
-                              [_vm._v("Go to user")]
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass: "next",
+                              on: {
+                                click: function($event) {
+                                  return _vm.change_current_picture_next(item)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("img", {
+                              staticClass: "clientPicture",
+                              attrs: { src: item.picture[item.current_picture] }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "titleItem" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.title) +
+                                "\n                "
                             )
-                          ],
-                          1
-                        )
-                      ]
-                    )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "descriptionItem" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.description) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "sizeItem" }, [
+                            _vm._v(
+                              "\n                   Size: " +
+                                _vm._s(item.size) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "priceItem" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.price) +
+                                " RON\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "gotobtn" },
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "btn btn-custom",
+                                  attrs: {
+                                    to: { path: "/profile/" + item.user_id }
+                                  }
+                                },
+                                [_vm._v("Go to user")]
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      : _vm._e()
                   }),
                   0
                 )
@@ -74177,10 +74156,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -74210,6 +74185,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     });
   },
   methods: {
+    accept: function accept(key, item) {
+      var _this2 = this;
+
+      axios.post('/api/posts/status', {
+        id: item,
+        status: 1
+      }).then(function (res) {
+        _this2.posts.splice(key, 1);
+      });
+    },
+    decline: function decline(key, item) {
+      var _this3 = this;
+
+      axios.post('/api/posts/status', {
+        id: item,
+        status: -1
+      }).then(function (res) {
+        _this3.posts.splice(key, 1);
+      });
+    },
     change_current_picture_prev: function change_current_picture_prev(item) {
       var i;
 
@@ -74238,7 +74233,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.selectedItem = item;
     },
     search: function search(word) {
-      var _this2 = this;
+      var _this4 = this;
 
       this.loading = 1;
       axios.get('/api/posts/search', {
@@ -74246,10 +74241,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           word: word
         }
       }).then(function (response) {
-        _this2.posts = response.data;
-        _this2.loading = 0;
+        _this4.posts = response.data;
+        _this4.loading = 0;
       })["catch"](function (err) {
-        return _this2.loading = 0;
+        return _this4.loading = 0;
       });
     }
   },
@@ -74284,71 +74279,87 @@ var render = function() {
               ? _c(
                   "div",
                   { staticClass: "containerClientList" },
-                  _vm._l(_vm.posts, function(item) {
-                    return _c(
-                      "div",
-                      { key: item.id, staticClass: "clientCard" },
-                      [
-                        _c("div", { staticClass: "pictureItem" }, [
-                          _c("div", {
-                            staticClass: "prev",
-                            on: {
-                              click: function($event) {
-                                return _vm.change_current_picture_prev(item)
+                  _vm._l(_vm.posts, function(item, key) {
+                    return item.status == 0
+                      ? _c("div", { key: item.id, staticClass: "clientCard" }, [
+                          _c("div", { staticClass: "pictureItem" }, [
+                            _c("div", {
+                              staticClass: "prev",
+                              on: {
+                                click: function($event) {
+                                  return _vm.change_current_picture_prev(item)
+                                }
                               }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("div", {
-                            staticClass: "next",
-                            on: {
-                              click: function($event) {
-                                return _vm.change_current_picture_next(item)
+                            }),
+                            _vm._v(" "),
+                            _c("div", {
+                              staticClass: "next",
+                              on: {
+                                click: function($event) {
+                                  return _vm.change_current_picture_next(item)
+                                }
                               }
-                            }
-                          }),
+                            }),
+                            _vm._v(" "),
+                            _c("img", {
+                              staticClass: "clientPicture",
+                              attrs: { src: item.picture[item.current_picture] }
+                            })
+                          ]),
                           _vm._v(" "),
-                          _c("img", {
-                            staticClass: "clientPicture",
-                            attrs: { src: item.picture[item.current_picture] }
-                          })
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "titleItem" }, [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item.title) +
-                              "\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "descriptionItem" }, [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item.description) +
-                              "\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "sizeItem" }, [
-                          _vm._v(
-                            "\n                    Size: " +
-                              _vm._s(item.size) +
-                              "\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "priceItem" }, [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(item.price) +
-                              " RON\n                "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(0, true)
-                      ]
-                    )
+                          _c("div", { staticClass: "titleItem" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.title) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "descriptionItem" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.description) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "sizeItem" }, [
+                            _vm._v(
+                              "\n                    Size: " +
+                                _vm._s(item.size) +
+                                "\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "priceItem" }, [
+                            _vm._v(
+                              "\n                    " +
+                                _vm._s(item.price) +
+                                " RON\n                "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "status" }, [
+                            _c("i", {
+                              staticClass: "fa fa-check accept",
+                              on: {
+                                click: function($event) {
+                                  return _vm.accept(key, item.id)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("i", {
+                              staticClass: "fa fa-times decline",
+                              on: {
+                                click: function($event) {
+                                  return _vm.decline(key, item.id)
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      : _vm._e()
                   }),
                   0
                 )
@@ -74356,28 +74367,12 @@ var render = function() {
                   _vm._v(" No elements! ")
                 ])
           ])
-        : _vm._e(),
-      _vm._v(" "),
-      _c("dialog-component", {
-        attrs: { title: "Delete", body: "Are you sure you want to delete?" },
-        on: { action: _vm.deleteItem }
-      })
+        : _vm._e()
     ],
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "status" }, [
-      _c("i", { staticClass: "fa fa-check accept" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-times decline" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

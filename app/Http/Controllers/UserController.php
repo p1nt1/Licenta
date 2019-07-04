@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function get(){
-        return response()->json(User::where('id', '!=', Auth::user()->id)->paginate(10));
+        return response()->json(User::all());
 
     }
 

@@ -24,12 +24,10 @@
                     <td>{{item.name}}</td>
                     <td>{{item.email}}</td>
                     <td><i class="fa fa-circle" :style="[ item.active == 1 ? {'font-size' : '20px', 'color':'green'} : {'font-size' : '20px', 'color': 'red'}]"></i></td>
-                    <td><router-link class="btn btn-primary" :to="`/user/handle/`+item.id" ><i class="fa fa-edit"></i></router-link> </td>
+                    <td><button v-if="item.active == 1" class="btn btn-danger" value="Activate" @click="desactivate(index, item)" >DezActivate</button></td>
                 </tr>
                 </tbody>
             </table>
-
-            <pagination :pagination="pagination" :link="'/user/list?page='" @paginate="paginate"></pagination>
         </div>
     </div>
 </template>
@@ -42,40 +40,29 @@
         data(){
             return{
                 users: [],
-                loading: 0,
-                pagination: {
-                    current_page : 1,
-                }
+                loading: 0
             }
         },
         mounted(){
-            let page = this.$route.query.page;
-            if(page !=  null){
-                if(page>1){
-                    this.pagination.current_page = parseInt(this.$route.query.page);
-                }
-            }
+            this.loading = 1;
 
-            this.paginate();
+            axios.get('/api/user/get')
+                .then(res=>{
+                    this.users = res.data;
+                    this.loading = 0
+                })
+                .catch(err=>{
+                    this.loading = 0;
+                })
         },
         methods:{
-            paginate() {
-                this.loading = 1;
-
-                axios.get('/api/user/get?page=' + this.pagination.current_page)
-                    .then(res=>{
-                        this.users = res.data.data;
-                        this.pagination = res.data;
-                        this.loading = 0
-                    })
-                    .catch(err=>{
-                        this.loading = 0;
-                    })
+            desactivate(index, item){
+                item.active = 0;
+                this.$set(this.users, index, item)
             }
         },
         components:{
-            SpinnerLoading,
-            pagination
+            SpinnerLoading
         }
     }
 </script>

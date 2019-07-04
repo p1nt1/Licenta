@@ -100,4 +100,12 @@ class PostController extends Controller
     public function search(Request $request){
         return response()->json(Post::where('title', 'like', '%' . $request->word . '%')->get());
     }
+
+    public function status(Request $request){
+        $post = Post::find($request['id']);
+        $post->status = $request['status'];
+        $post->save();
+
+        return response()->json('Status changed!');
+    }
 }

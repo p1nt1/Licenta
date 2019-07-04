@@ -6,11 +6,9 @@
         <spinner-loading :loading="loading" style="width: 100px; height: 100px; margin: 20px auto"></spinner-loading>
         <div v-if="!loading">
 
-
             <div v-if="posts.length != 0" class="containerClientList">
 
-                <div class="clientCard" v-for="item in posts" :key="item.id">
-
+                <div class="clientCard" v-for="(item, key) in posts" v-if="item.status == 0" :key="item.id">
                     <div class="pictureItem">
                         <div class="prev" @click="change_current_picture_prev(item)"></div>
                         <div class="next" @click="change_current_picture_next(item)"></div>
@@ -34,8 +32,8 @@
                     </div>
 
                     <div class="status">
-                        <i class="fa fa-check accept"></i>
-                        <i class="fa fa-times decline"></i>
+                        <i class="fa fa-check accept" @click="accept(key, item.id)"></i>
+                        <i class="fa fa-times decline" @click="decline(key, item.id)"></i>
                     </div>
 
                 </div>
@@ -43,8 +41,6 @@
             </div>
             <p v-else class="emptyList"> No elements! </p>
         </div>
-
-        <dialog-component :title="'Delete'" :body="'Are you sure you want to delete?'" @action="deleteItem"></dialog-component>
     </div>
 </template>
 
@@ -77,6 +73,18 @@
                 })
         },
         methods:{
+            accept(key, item){
+                axios.post('/api/posts/status', {id: item, status: 1})
+                    .then(res=>{
+                        this.posts.splice(key, 1);
+                    })
+            },
+            decline(key, item){
+                axios.post('/api/posts/status', {id: item, status: -1})
+                    .then(res=>{
+                        this.posts.splice(key, 1);
+                    })
+            },
             change_current_picture_prev(item){
                 let i;
                 for (i = 0; i < this.posts.length; i++) {

@@ -6,9 +6,9 @@
 
         <spinner-loading :loading="loading" style="width: 100px; height: 100px; margin: 20px auto"></spinner-loading>
         <div v-if="!loading">
-            <div v-if="posts.length != 0" class="containerClientList">
+            <div v-if="posts.length != 0" class="containerClientList" >
 
-                <div class="clientCard" v-for="item in posts" :key="item.id">
+                <div class="clientCard" v-for="(item, key) in posts" v-if="item.status == 1" :key="item.id">
 
                     <div class="pictureItem">
                         <div class="prev" @click="change_current_picture_prev(item)"></div>
@@ -105,6 +105,11 @@
                 axios.get('/api/posts/search', {params : { word : word}})
                     .then(response => {
                         this.posts = response.data;
+                        let i = 0;
+                        for (i = 0; i < this.posts.length; i++) {
+                            this.posts[i].picture = this.posts[i].picture.split(';');
+                            this.posts[i].current_picture = 0;
+                        }
                         this.loading = 0;
                     })
                     .catch(err =>
