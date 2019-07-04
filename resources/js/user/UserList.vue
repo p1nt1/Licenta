@@ -5,7 +5,6 @@
         <div v-if="!loading">
             <h2 class="titleList">User Management</h2>
 
-            <router-link class="btn btn-info buttonCustom btnRound" to="/user/create"><i class="fa fa-plus-circle"> </i></router-link>
 
             <table class="table" align="center">
                 <thead class="thead-dark">

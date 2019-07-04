@@ -9,27 +9,33 @@
                 <li class="nav-item">
                     <router-link :to="{path: '/post/create'}" class="nav-link">Add post</router-link>
                 </li>
-                <li class="nav-item " v-if="currentUser==nil ">
+                <li class="nav-item " v-if="currentUser==null ">
                     <router-link :to="{path: '/login'}" class="nav-link">Login</router-link>
                 </li>
-                <li class="nav-item" v-if="currentUser==nil">
+                <li class="nav-item" v-if="currentUser==null">
                 <router-link :to="{path: '/register'}" class="nav-link">Register</router-link>
                 </li>
-                <li class="nav-item dropdown" v-if="currentUser!=nil">
+                <li class="nav-item dropdown" v-if="currentUser!=null">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span>{{currentUser.name}}</span>
                         <img :src="currentUser.avatar" class="avatarHeader">
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" >
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"  v-if="currentUser.role == 2">
                         <router-link :to="{path: '/profile/' + currentUser.id}" class="dropdown-item">Profile</router-link>
-
-                        <router-link :to="{path: '/user/list'}" class="dropdown-item">Users List</router-link>
-
-                        <router-link :to="{path: '/pendingposts'}" class="dropdown-item">Pending Posts</router-link>
-
                         <a class="dropdown-item" @click="logout" style="cursor: pointer">Logout</a>
-
                     </div>
+
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" v-if="currentUser.role == 1">
+
+                        <router-link :to="{path: '/profile/' + currentUser.id}" class="dropdown-item" >Profile</router-link>
+
+                        <router-link :to="{path: '/user/list'}" class="dropdown-item" >Users List</router-link>
+
+                        <router-link :to="{path: '/pendingposts'}" class="dropdown-item" >Pending Posts</router-link>
+
+                        <a class="dropdown-item" @click="logout" style="cursor: pointer" >Logout</a>
+                    </div>
+
                 </li>
             </ul>
         </div>
@@ -40,6 +46,8 @@
 
     export default {
         components:{
+        },
+        created(){
         },
         computed: {
             currentUser() {

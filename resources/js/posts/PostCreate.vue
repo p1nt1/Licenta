@@ -65,10 +65,16 @@
             }
         },
         methods:{
-            setPicture(){
-                this.form.picutre = this.$refs.myPicture.files
+            setPicture(e) {
+                var input = event.target;
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.form.picture = e.target.result;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
             },
-
             post(){
                 this.loading = 1;
 

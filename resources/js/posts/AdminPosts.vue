@@ -1,11 +1,12 @@
 <template>
     <div class="container containerList">
-        <h2 class="titleList">All Posts</h2>
+        <h2 class="titleList">Pending Posts</h2>
 
-        <search @search="search"></search>
 
         <spinner-loading :loading="loading" style="width: 100px; height: 100px; margin: 20px auto"></spinner-loading>
         <div v-if="!loading">
+
+
             <div v-if="posts.length != 0" class="containerClientList">
 
                 <div class="clientCard" v-for="item in posts" :key="item.id">
@@ -25,15 +26,16 @@
                     </div>
 
                     <div class="sizeItem">
-                       Size: {{item.size}}
+                        Size: {{item.size}}
                     </div>
 
                     <div class="priceItem">
                         {{item.price}} RON
                     </div>
 
-                    <div class="gotobtn">
-                        <router-link :to="{path: '/profile/' + item.user_id}" class="btn btn-custom">Go to user</router-link>
+                    <div class="status">
+                        <i class="fa fa-check accept"></i>
+                        <i class="fa fa-times decline"></i>
                     </div>
 
                 </div>
@@ -42,7 +44,7 @@
             <p v-else class="emptyList"> No elements! </p>
         </div>
 
-        <dialog-component :title="'Delete'" :body="'Are you sure you want to delete?'" @action="confirmDelete"></dialog-component>
+        <dialog-component :title="'Delete'" :body="'Are you sure you want to delete?'" @action="deleteItem"></dialog-component>
     </div>
 </template>
 
@@ -231,5 +233,28 @@
         float: right;
     }
 
+    .decline {
+        font-size: 30px;
+        color: red;
+        cursor: pointer;
+    }
+
+    .decline:hover {
+        color: #ba0000;
+    }
+
+    .accept:hover{
+        color: #006500;
+    }
+
+    .accept{
+        font-size: 30px;
+        color: green;
+        cursor: pointer;
+    }
+
+    .status{
+        float: right;
+    }
 
 </style>

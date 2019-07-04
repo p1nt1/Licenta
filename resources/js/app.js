@@ -23,6 +23,8 @@ Vue.use(Vuex);
 Vue.use(Vuesax);
 Vue.use(VueTabs);
 Vue.use(BootstrapVue);
+import VueCarousel from 'vue-carousel';
+Vue.use(VueCarousel);
 
 Vue.component('pagination', PaginationComponent);
 Vue.component('spinner-loading', SpinnerLoading);

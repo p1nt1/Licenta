@@ -38,7 +38,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'phone' => 'required|string|regex:/(07)[0-9]{8}/',
-            'role' => 'required|between:1,2'
+            'role' => 'required|between:1,2',
+            'city' => 'required|string|max:20'
         ]);
 
         $user = User::where('id', $id)->first();
@@ -52,7 +53,8 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
-            'role' => $request->role
+            'role' => $request->role,
+            'city' => $request->city
         ]);
 
         return response()->json(

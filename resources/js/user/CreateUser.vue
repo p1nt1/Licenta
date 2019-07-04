@@ -15,17 +15,23 @@
         </div>
 
         <div class="registerInputContainer">
+            <p class="errorText" v-if="errors.password !== ''">{{ errors.password }}</p>
+            <input type="password" class="form-control registerInput" :class="{ 'errorInput' : errors.password !== ''}" v-model="form.password" placeholder="Password">
+        </div>
+
+        <div class="registerInputContainer">
+            <p class="errorText" v-if="errors.password_confirmation !== ''">{{ errors.password_confirmation }}</p>
+            <input type="password" class="form-control registerInput" :class="{ 'errorInput' : errors.password_confirmation !== ''}" v-model="form.password_confirmation" placeholder="Password Confirmation">
+        </div>
+
+        <div class="registerInputContainer">
             <p class="errorText" v-if="errors.phone !== ''">{{ errors.phone }}</p>
             <input type="text" class="form-control registerInput" :class="{ 'errorInput' : errors.phone !== ''}" v-model="form.phone" placeholder="Phone">
         </div>
 
         <div class="registerInputContainer">
-            <p class="errorText" v-if="errors.role !== ''">{{ errors.role }}</p>
-            <select class="form-control registerInput" v-model="form.role" :class="{ 'errorInput' : errors.role !== ''}">
-                <option value="0" disabled selected>Select a city</option>
-                <option value="1">Suceava</option>
-                <option value="2">Cluj Napoca</option>
-            </select>
+            <p class="errorText" v-if="errors.city !== ''">{{ errors.city }}</p>
+            <input type="text" class="form-control registerInput" :class="{ 'errorInput' : errors.city !== ''}" v-model="form.city" placeholder="City">
         </div>
 
         <div>
@@ -33,7 +39,7 @@
         </div>
 
         <div>
-            <router-link to="/user/list" class="btn btn-info"><i class="fa fa-arrow-left"></i> Back</router-link>
+            <router-link to="/" class="btn btn-info"><i class="fa fa-arrow-left"></i> Back</router-link>
         </div>
     </div>
 </template>
@@ -46,16 +52,23 @@
         data(){
             return {
                 form: {
-                    name: '',
-                    email: '',
-                    role: 0,
-                    phone: ''
+                    name: 'Cont ',
+                    email: 'cont@email.ro',
+                    role: 2,
+                    phone: '0751929003',
+                    city: 'Iasi',
+                    password: '123456',
+                    password_confirmation: '123456'
                 },
                 errors:{
                     email: '',
                     name: '',
                     phone: '',
-                    role: ''
+                    role: '',
+                    city: '',
+                    password: '',
+                    password_confirmation: ''
+
                 },
                 success: '',
                 loading: 0
@@ -69,7 +82,10 @@
                 this.errors.name = '';
                 this.errors.email = '';
                 this.errors.phone = '';
-                this.errors.role = '';
+                this.errors.role = ''
+                this.errors.city = '';
+                this.errors.password = '';
+                this.errors.password_confirmation = '';
 
                 this.success = '';
 
@@ -84,7 +100,10 @@
                         this.errors.name = list.hasOwnProperty('name') ? list.name[0] : '';
                         this.errors.email = list.hasOwnProperty('email') ? list.email[0] : '';
                         this.errors.phone = list.hasOwnProperty('phone') ? list.phone[0] : '';
-                        this.errors.role = list.hasOwnProperty('role') ? 'The role field is requires' : '';
+                        this.errors.city = list.hasOwnProperty('city') ? list.city[0] : '';
+                        this.errors.password = list.hasOwnProperty('password') ? list.password[0] : '';
+                        this.errors.password_confirmation = list.hasOwnProperty('password_confirmation') ? list.password_confirmation[0] : '';
+
                         this.loading = 0;
                     })
 

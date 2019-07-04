@@ -5,6 +5,7 @@ namespace Colorize\Http\Controllers;
 use Colorize\Client;
 use Colorize\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -18,29 +19,33 @@ class PostController extends Controller
 
     public function create(Request $request){
 
+        $request->validate([
+            'title' => 'required|string|max:50',
+            'description' => 'required|string|max:100',
+            'size' => 'required|integer',
+            'price' => 'required|integer'
+        ]);
 
         $obj = new Post([
-            'picture' => '',
-            'price' => $request->price,
             'title' => $request->title,
-            'user_id' => auth()->id(),
+            'description' => $request->description,
             'size' => $request->size,
+            'picture' => 'public/images/icon.jpeg' ,
+            'price' => $request->price,
+            'user_id' => auth()->id(),
             'status' => 0
         ]);
 
         $obj->save();
 
-//        $image = $request->picture;
-//        $image = str_replace('data:image/png;base64,', '', $image);
-//        $image = str_replace(' ', '+', $image);
-//
-//        Storage::put('/public/Posts/'. $obj->id .'.png', base64_decode($image));
-//
-//        $obj->update([
-//            'picture' => '/storage/Posts/' . $obj->id . '.png'
-//        ]);
-//
-//        $obj->save();
+        $image = $request->picture;
+        $image = str_replace('data:image/jpeg;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        Storage::put('/public/picture/image_'. $obj->id . '.jpeg', base64_decode($image));
+
+        $obj->update([
+            'picture' => '/storage/picture/image_'. $obj->id . '.jpeg'
+        ]);
 
         return response()->json([
             'message' => 'Post added!',

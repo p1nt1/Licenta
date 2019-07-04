@@ -29,14 +29,17 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users|max:255',
             'phone' => 'required|string|regex:/(07)[0-9]{8}/',
-            'role' => 'required|integer|between:1,2'
+            'city' => 'required|string|max:255',
+            'password' => 'required|min:6|max:100|confirmed'
         ]);
 
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'role' => $request->role,
+            'password' => bcrypt($request->password),
+            'role' => 2,
+            'city' => $request->city,
             'activation_token' => str_random(60)
         ]);
 
@@ -49,7 +52,7 @@ class AuthController extends Controller
             'avatar' => '/storage/users/'.$user->id.'/avatar.png'
         ]);
 
-        $user->notify(new SignupActivate());
+//        $user->notify(new SignupActivate());
 
         return response()->json([
             'message' => __('auth.signup_success')
@@ -142,6 +145,7 @@ class AuthController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'avatar' => $user->avatar,
+                'city' => $user->city,
                 'role' => $user->role
                 ],
             'access_token' => $tokenResult->accessToken,

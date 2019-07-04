@@ -7,27 +7,33 @@
                 <h1 class="loginTitle">{{user.name}}</h1>
 
                 <div class="loginInputContainer">
+                    <label class="loginLabel">Name</label>
+                    <input type="text" class="form-control loginInput" placeholder="Name" v-model="user.name" :disabled="disabled == 1">
+                    <i class="fa fa-user passwordIcon"></i>
+                </div>
+
+                <div class="loginInputContainer">
                     <label class="loginLabel">Email</label>
-                    <input type="text" class="form-control loginInput" placeholder="Email" v-model="user.email" disabled>
+                    <input type="text" class="form-control loginInput" placeholder="Email" v-model="user.email" :disabled="disabled == 1">
                     <i class="fa fa-envelope passwordIcon"></i>
                 </div>
 
                 <div class="loginInputContainer">
                     <label class="loginLabel">Phone</label>
 
-                    <input class="form-control loginInput" v-model="user.phone" disabled>
+                    <input class="form-control loginInput" v-model="user.phone" :disabled="disabled == 1">
                     <i class="fa fa-phone passwordIcon"></i>
                 </div>
 
                 <div class="loginInputContainer">
                     <label class="loginLabel">City</label>
 
-                    <input class="form-control loginInput" v-model="user.city" disabled>
+                    <input class="form-control loginInput" v-model="user.city" :disabled="disabled == 1">
                     <i class="fa fa-building passwordIcon"></i>
                 </div>
 
                 <div>
-                    <button class="btn btn-custom" type="submit" :disabled="loading == 1" @click="update">
+                    <button class="btn btn-custom" type="submit" v-if="" :disabled="loading == 1" @click="update" v-if="disabled == 0">
                         <i class="fa fa-spinner fa-spin" style="font-size:18px" v-if="loading"></i> Update Info
                     </button>
 
@@ -46,12 +52,13 @@
                 .then(res=>{
                     if(res.data.length == 0)
                         this.$router.push({path: '/not-found'});
+
                     this.user = res.data[0];
-                    this.user.city = 'Iasi';
+
+                    if(this.currentUser !== null && this.user.id == this.currentUser.id)
+                        this.disabled = 0;
+
                     this.loading = 0;
-                })
-                .catch(err=>{
-                    this.$router.push({path: '/not-found'});
                 })
         },
         data(){
@@ -60,6 +67,7 @@
                 response: '',
                 loading: 1,
                 changeAvatar: 0,
+                disabled: 1
             }
         },
         methods: {
@@ -69,11 +77,11 @@
             },
             update(){
                 this.loading=1;
-                axios.post('/api/user/update', this.currentUser)
+                axios.put('/api/user/edit/' + this.user.id, this.user)
                     .then(res=>{
                         this.loading=0;
                         this.response = res.data.data;
-                        this.$store.commit('updateUser', this.currentUser);
+                        this.$store.commit('updateUser', this.user);
                     })
                     .catch(err=>{
                         this.loading=0;
@@ -91,7 +99,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .btn-custom{
         color: #e1e8ef;
         background-color: #5DBCD2;
@@ -118,7 +126,7 @@
         text-shadow: 0 1px 0 rgba(147, 147, 147, 0.44);
         position: relative;
         background-color: white;
-        height: 685px;
+        height: 762px;
         padding: 25px 30px 25px;
         border-radius: 13px;
         -webkit-box-shadow: 0 0 3px 0 black;
